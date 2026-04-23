@@ -97,7 +97,7 @@ with st.sidebar:
     # THE 4 EXPLICIT OPTIONS
     mode = st.radio("", [
         "1. Dynamic Multi-Asset", 
-        "2. Case Study (2 Assets)", 
+        "2. Asset Pair Optimizer", 
         "3. Single Stock Deep Dive",
         "4. Single Mutual Fund Deep Dive"
     ])
@@ -248,8 +248,8 @@ if mode == "1. Dynamic Multi-Asset":
 # ─────────────────────────────────────────────────────────────────────────────
 # MODE 2: CASE STUDY (KO vs MSFT)
 # ─────────────────────────────────────────────────────────────────────────────
-elif mode == "2. Case Study (2 Assets)":
-    uploaded_case = st.file_uploader("Upload Case Study CSV", type=["csv"])
+elif mode == "2. Asset Pair Optimizer":
+    uploaded_case = st.file_uploader("Upload Asset Pair CSV", type=["csv"])
     if not uploaded_case: st.stop()
     raw = pd.read_csv(uploaded_case)
     year_col = next((c for c in raw.columns if 'year' in c.lower()), raw.columns[0])
