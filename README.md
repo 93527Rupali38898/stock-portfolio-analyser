@@ -1,14 +1,21 @@
 # 📈 Wealth Portfolio Analyzer
 
-A professional financial analytics dashboard built using Streamlit that enables users to analyze and optimize portfolios across **stocks and mutual funds** using real-world quantitative finance techniques.
+A comprehensive financial analytics dashboard built using Streamlit that enables users to analyze and optimize investment portfolios across **stocks, mutual funds, and fixed deposits (FDs)**.
+
+The application applies real-world quantitative finance concepts such as **risk-return analysis, portfolio optimization, and Monte Carlo simulation** in an interactive and user-friendly environment.
 
 ---
 
 ## 📌 Overview
 
-This application provides an interactive platform to evaluate investment performance, measure risk, and construct optimal portfolios using **Modern Portfolio Theory**.
+This project provides a unified platform to:
 
-It supports both **stocks and mutual funds**, offering flexible analysis modes for beginners as well as advanced users.
+* Analyze performance of multiple asset classes
+* Compare risk and return across investments
+* Construct and optimize portfolios
+* Simulate real-world financial decision-making
+
+It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
 
 ---
 
@@ -16,14 +23,15 @@ It supports both **stocks and mutual funds**, offering flexible analysis modes f
 
 ### 🔥 1. Dynamic Multi-Asset Portfolio
 
-* Combine stocks and mutual funds in a single portfolio
-* Supports 2–20 assets dynamically
-* Automatic date alignment across datasets
+* Combine **stocks, mutual funds, and fixed deposits**
+* Flexible portfolio construction
+* Automatic data alignment across assets
 * Computes:
 
+  * Portfolio Return
+  * Portfolio Risk
   * Covariance Matrix
   * Correlation Matrix
-  * Portfolio Return & Risk
 * Efficient Frontier using Monte Carlo simulation
 * Identifies **Optimal Portfolio (Max Sharpe Ratio)**
 
@@ -31,13 +39,13 @@ It supports both **stocks and mutual funds**, offering flexible analysis modes f
 
 ### ⚖️ 2. Asset Pair Optimizer
 
-* Compare two assets (stocks or mutual funds)
+* Compare any two assets
 * Calculates:
 
   * Mean Return
   * Risk (Standard Deviation)
   * Covariance
-* Interactive weight-based portfolio analysis
+* Interactive weight-based portfolio adjustment
 
 ---
 
@@ -56,8 +64,8 @@ It supports both **stocks and mutual funds**, offering flexible analysis modes f
 
 ### 🏦 4. Mutual Fund Deep Dive
 
-* Upload mutual fund NAV data
-* Specialized NAV-based analysis
+* Upload NAV-based data
+* Specialized mutual fund analysis
 * Calculates:
 
   * CAGR
@@ -66,12 +74,26 @@ It supports both **stocks and mutual funds**, offering flexible analysis modes f
 
 ---
 
-### 🎨 5. Interactive UI & Dashboard
+### 🛡️ 5. Fixed Deposit (FD) Analysis
 
-* Adaptive Light/Dark Mode
-* Custom styled metric cards
+* Analyze risk-free investment growth
+* Calculates:
+
+  * Maturity Amount
+  * Interest Earned
+* Supports:
+
+  * Monthly / Quarterly / Annual compounding
+* Visualizes FD growth over time
+
+---
+
+### 🎨 6. Interactive Dashboard
+
+* Built with Streamlit
+* Adaptive Light/Dark UI
 * Interactive charts using Plotly
-* Tab-based analytics dashboard
+* Dynamic metric cards and analytics panels
 
 ---
 
@@ -84,6 +106,7 @@ It supports both **stocks and mutual funds**, offering flexible analysis modes f
 * Efficient Frontier
 * Sharpe Ratio Optimization
 * CAGR (Compound Annual Growth Rate)
+* Compound Interest (FD Modeling)
 
 ---
 
@@ -99,24 +122,31 @@ It supports both **stocks and mutual funds**, offering flexible analysis modes f
 
 ## ⚙️ How It Works
 
-* Automatically detects **Date, Price, NAV, Dividend columns**
-* Converts raw financial data into return series
-* Aligns multiple assets on a common timeline
-* Uses statistical methods to compute portfolio metrics
-* Simulates thousands of portfolios to find optimal allocation
+* Automatically detects **Date, Price/NAV, Dividend columns**
+* Converts price data into return series
+* Aligns multiple assets into a common timeline
+* Integrates fixed deposits as **risk-free assets (zero variance)**
+* Uses statistical models to compute portfolio metrics
+* Simulates thousands of portfolios to identify optimal allocation
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Run the Project
+
+### 1. Clone Repository
 
 git clone https://github.com/93527Rupali38898/stock-portfolio-analyser.git
 cd stock-portfolio-analyser
 
+### 2. Install Dependencies
+
 pip install -r requirements.txt
+
+### 3. Run Application
 
 streamlit run stock_analysis_app.py
 
-Open in browser: http://localhost:8501
+👉 Open in browser: http://localhost:8501
 
 ---
 
@@ -132,7 +162,7 @@ CSV must contain:
 
 ---
 
-### Asset Pair Mode
+### Case Study Mode
 
 Year | Asset1 Returns | Asset2 Returns
 
@@ -144,8 +174,8 @@ Year | Asset1 Returns | Asset2 Returns
 * Portfolio Optimization
 * Data Analysis
 * Statistical Computation
-* Interactive Dashboard Design
-* Problem Solving with Real Data
+* Multi-Asset Investment Analysis
+* Dashboard Development
 
 ---
 
