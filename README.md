@@ -2,30 +2,30 @@
 
 A comprehensive financial analytics dashboard built using Streamlit that enables users to analyze and optimize investment portfolios across **stocks, mutual funds, and fixed deposits (FDs)**.
 
-The application applies real-world quantitative finance concepts such as **risk-return analysis, portfolio optimization, and Monte Carlo simulation** in an interactive and user-friendly environment.
+The application integrates real-world quantitative finance techniques such as **risk-return analysis, portfolio optimization, and Monte Carlo simulation** into an interactive platform.
 
 ---
 
 ## 📌 Overview
 
-This project provides a unified platform to:
+The Wealth Portfolio Analyzer provides a unified system to:
 
-* Analyze performance of multiple asset classes
-* Compare risk and return across investments
-* Construct and optimize portfolios
+* Analyze performance across multiple asset classes
+* Compare investment risk and return
+* Construct and optimize portfolios dynamically
 * Simulate real-world financial decision-making
 
-It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
+It is a practical implementation of **Modern Portfolio Theory (MPT)**.
 
 ---
 
 ## 🚀 Key Features
 
-### 🔥 1. Dynamic Multi-Asset Portfolio
+### 🔥 1. Dynamic Multi-Asset Portfolio (All Combined)
 
 * Combine **stocks, mutual funds, and fixed deposits**
-* Flexible portfolio construction
-* Automatic data alignment across assets
+* Flexible asset allocation
+* Automatic data alignment across datasets
 * Computes:
 
   * Portfolio Return
@@ -33,11 +33,27 @@ It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
   * Covariance Matrix
   * Correlation Matrix
 * Efficient Frontier using Monte Carlo simulation
-* Identifies **Optimal Portfolio (Max Sharpe Ratio)**
+* Identifies **Optimal Portfolio (Maximum Sharpe Ratio)**
 
 ---
 
-### ⚖️ 2. Asset Pair Optimizer
+### 📊 2. Multi-Stock Portfolio
+
+* Analyze multiple stocks together
+* Risk-return evaluation across stocks
+* Portfolio optimization using covariance
+
+---
+
+### 🏦 3. Multi-Mutual Fund Portfolio
+
+* Analyze multiple mutual funds simultaneously
+* NAV-based performance evaluation
+* Portfolio risk and diversification analysis
+
+---
+
+### ⚖️ 4. Asset Pair Comparison
 
 * Compare any two assets
 * Calculates:
@@ -45,11 +61,11 @@ It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
   * Mean Return
   * Risk (Standard Deviation)
   * Covariance
-* Interactive weight-based portfolio adjustment
+* Interactive portfolio weight adjustment
 
 ---
 
-### 📊 3. Single Stock Deep Dive
+### 📈 5. Single Stock Deep Dive
 
 * Upload stock CSV data
 * Automatic column detection
@@ -62,10 +78,9 @@ It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
 
 ---
 
-### 🏦 4. Mutual Fund Deep Dive
+### 📉 6. Single Mutual Fund Deep Dive
 
-* Upload NAV-based data
-* Specialized mutual fund analysis
+* Upload NAV data
 * Calculates:
 
   * CAGR
@@ -74,9 +89,9 @@ It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
 
 ---
 
-### 🛡️ 5. Fixed Deposit (FD) Analysis
+### 🛡️ 7. Fixed Deposit (FD) Analysis
 
-* Analyze risk-free investment growth
+* Models risk-free investment growth
 * Calculates:
 
   * Maturity Amount
@@ -84,16 +99,16 @@ It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
 * Supports:
 
   * Monthly / Quarterly / Annual compounding
-* Visualizes FD growth over time
+* Visualizes FD growth trajectory
 
 ---
 
-### 🎨 6. Interactive Dashboard
+### 🎨 Interactive Dashboard
 
-* Built with Streamlit
-* Adaptive Light/Dark UI
-* Interactive charts using Plotly
-* Dynamic metric cards and analytics panels
+* Built using Streamlit
+* Clean and responsive UI
+* Dynamic charts using Plotly
+* Metric cards for quick insights
 
 ---
 
@@ -104,7 +119,7 @@ It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
 * Covariance & Correlation
 * Monte Carlo Simulation
 * Efficient Frontier
-* Sharpe Ratio Optimization
+* Sharpe Ratio (Risk-Adjusted Return)
 * CAGR (Compound Annual Growth Rate)
 * Compound Interest (FD Modeling)
 
@@ -123,8 +138,8 @@ It reflects practical implementation of **Modern Portfolio Theory (MPT)**.
 ## ⚙️ How It Works
 
 * Automatically detects **Date, Price/NAV, Dividend columns**
-* Converts price data into return series
-* Aligns multiple assets into a common timeline
+* Converts raw financial data into return series
+* Aligns multiple assets on a common timeline
 * Integrates fixed deposits as **risk-free assets (zero variance)**
 * Uses statistical models to compute portfolio metrics
 * Simulates thousands of portfolios to identify optimal allocation
@@ -152,7 +167,7 @@ streamlit run stock_analysis_app.py
 
 ## 📂 Input Format
 
-### Multi-Asset Mode
+### Multi-Asset / Stock / Mutual Fund Modes
 
 CSV must contain:
 
@@ -173,9 +188,9 @@ Year | Asset1 Returns | Asset2 Returns
 * Financial Modeling
 * Portfolio Optimization
 * Data Analysis
-* Statistical Computation
+* Statistical Computing
 * Multi-Asset Investment Analysis
-* Dashboard Development
+* Interactive Dashboard Development
 
 ---
 
