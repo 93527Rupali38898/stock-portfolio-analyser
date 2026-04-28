@@ -1,127 +1,126 @@
-# 📈 Wealth Portfolio Analyzer
+# 📈 Wealth Portfolio Analyzer (Institutional-Grade v2.0)
 
-A comprehensive financial analytics dashboard built using Streamlit that enables users to analyze and optimize investment portfolios across **stocks, mutual funds, and fixed deposits (FDs)**.
+A comprehensive financial analytics platform built using Streamlit that enables users to analyze and optimize portfolios across **stocks, mutual funds, and fixed deposits (FDs)** using advanced quantitative finance techniques.
 
-The application integrates real-world quantitative finance techniques such as **risk-return analysis, portfolio optimization, and Monte Carlo simulation** into an interactive platform.
+This system goes beyond basic portfolio analysis by integrating **risk-adjusted metrics, macroeconomic factors, and credit-risk modeling**, simulating real-world investment decision frameworks.
 
 ---
 
 ## 📌 Overview
 
-The Wealth Portfolio Analyzer provides a unified system to:
+The Wealth Portfolio Analyzer provides a unified environment to:
 
-* Analyze performance across multiple asset classes
-* Compare investment risk and return
-* Construct and optimize portfolios dynamically
-* Simulate real-world financial decision-making
+* Analyze multi-asset portfolios
+* Evaluate risk-adjusted performance
+* Incorporate macroeconomic factors (inflation & risk-free rate)
+* Simulate optimal portfolio allocation
+* Model real vs nominal returns
 
-It is a practical implementation of **Modern Portfolio Theory (MPT)**.
+It represents a practical implementation of **Modern Portfolio Theory (MPT)** enhanced with **institutional risk metrics**.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Core Modules
 
-### 🔥 1. Dynamic Multi-Asset Portfolio (All Combined)
+### 🔥 1. Dynamic Multi-Asset Portfolio
 
-* Combine **stocks, mutual funds, and fixed deposits**
-* Flexible asset allocation
-* Automatic data alignment across datasets
+* Combine **stocks + mutual funds + fixed deposits**
+* Automatic time-series alignment
 * Computes:
 
-  * Portfolio Return
-  * Portfolio Risk
-  * Covariance Matrix
-  * Correlation Matrix
+  * Portfolio Return & Volatility
+  * Covariance & Correlation Matrix
+  * Sharpe Ratio (risk-free adjusted)
 * Efficient Frontier using Monte Carlo simulation
-* Identifies **Optimal Portfolio (Maximum Sharpe Ratio)**
+* Optimal portfolio selection
 
 ---
 
 ### 📊 2. Multi-Stock Portfolio
 
-* Analyze multiple stocks together
-* Risk-return evaluation across stocks
-* Portfolio optimization using covariance
+* Analyze multiple equities simultaneously
+* Diversification and correlation analysis
+* Risk-return optimization
 
 ---
 
 ### 🏦 3. Multi-Mutual Fund Portfolio
 
-* Analyze multiple mutual funds simultaneously
-* NAV-based performance evaluation
-* Portfolio risk and diversification analysis
+* NAV-based portfolio analysis
+* Comparative performance evaluation
+* Risk-adjusted metrics
 
 ---
 
-### ⚖️ 4. Asset Pair Comparison
+### 📈 4. Single Asset Deep Dive
 
-* Compare any two assets
-* Calculates:
+Supports both:
 
-  * Mean Return
-  * Risk (Standard Deviation)
-  * Covariance
-* Interactive portfolio weight adjustment
+* Stocks
+* Mutual Funds
 
----
+Calculates:
 
-### 📈 5. Single Stock Deep Dive
-
-* Upload stock CSV data
-* Automatic column detection
-* Calculates:
-
-  * Returns
-  * CAGR
-  * Annualized Risk
-  * Coefficient of Variation
+* CAGR
+* Volatility (Annualized)
+* Sharpe Ratio
+* Sortino Ratio
+* Max Drawdown
+* Calmar Ratio
+* VaR (95%)
+* Skewness & Kurtosis
 
 ---
 
-### 📉 6. Single Mutual Fund Deep Dive
+### 🛡️ 5. Fixed Deposit & Credit Risk Engine
 
-* Upload NAV data
-* Calculates:
+* Models FD as a **risk-adjusted fixed-income instrument**
+* Incorporates:
 
-  * CAGR
-  * Risk
-  * Performance metrics
+  * Credit default probability
+  * Partial recovery assumptions
+  * Inflation adjustment (Fisher Equation)
+* Outputs:
 
----
-
-### 🛡️ 7. Fixed Deposit (FD) Analysis
-
-* Models risk-free investment growth
-* Calculates:
-
-  * Maturity Amount
-  * Interest Earned
-* Supports:
-
-  * Monthly / Quarterly / Annual compounding
-* Visualizes FD growth trajectory
+  * Risk-adjusted CAGR
+  * Real yield (purchasing power)
+  * Survival probability
+* Sensitivity analysis vs inflation
 
 ---
 
-### 🎨 Interactive Dashboard
-
-* Built using Streamlit
-* Clean and responsive UI
-* Dynamic charts using Plotly
-* Metric cards for quick insights
-
----
-
-## 🧠 Financial Concepts Implemented
+## 🧠 Advanced Financial Concepts Implemented
 
 * Portfolio Return (Weighted Mean)
 * Portfolio Risk: √(wᵀ Σ w)
-* Covariance & Correlation
-* Monte Carlo Simulation
-* Efficient Frontier
-* Sharpe Ratio (Risk-Adjusted Return)
+* Sharpe Ratio (risk-free adjusted)
+* Sortino Ratio (downside risk)
+* Maximum Drawdown
+* Calmar Ratio
+* Value at Risk (VaR 95%)
+* Efficient Frontier (Monte Carlo Simulation)
 * CAGR (Compound Annual Growth Rate)
-* Compound Interest (FD Modeling)
+* Fisher Equation (Real Return)
+* Credit Risk Modeling (Expected Payoff)
+
+---
+
+## 🌐 Macroeconomic Integration
+
+* Live Inflation Data (World Bank API)
+* Risk-Free Rate (India 10Y G-Sec Proxy)
+* User override support
+
+---
+
+## 📊 Visual Analytics
+
+* Price/NAV trends
+* Return distributions with normal fit
+* Efficient Frontier visualization
+* Drawdown curves
+* Rolling returns
+* FD growth vs inflation comparison
 
 ---
 
@@ -132,21 +131,23 @@ It is a practical implementation of **Modern Portfolio Theory (MPT)**.
 * Pandas
 * NumPy
 * Plotly
+* SciPy
+* Requests (API integration)
 
 ---
 
 ## ⚙️ How It Works
 
-* Automatically detects **Date, Price/NAV, Dividend columns**
-* Converts raw financial data into return series
+* Auto-detects financial data columns (Date, Price/NAV, Dividend)
+* Converts data into return series
 * Aligns multiple assets on a common timeline
-* Integrates fixed deposits as **risk-free assets (zero variance)**
-* Uses statistical models to compute portfolio metrics
-* Simulates thousands of portfolios to identify optimal allocation
+* Integrates fixed-income instruments as risk-adjusted assets
+* Uses statistical and probabilistic models for portfolio evaluation
+* Simulates thousands of portfolios for optimization
 
 ---
 
-## 🚀 How to Run the Project
+## 🚀 How to Run
 
 ### 1. Clone Repository
 
@@ -167,7 +168,7 @@ streamlit run stock_analysis_app.py
 
 ## 📂 Input Format
 
-### Multi-Asset / Stock / Mutual Fund Modes
+### Market Assets (Stocks / Mutual Funds)
 
 CSV must contain:
 
@@ -177,7 +178,7 @@ CSV must contain:
 
 ---
 
-### Case Study Mode
+### Case Study
 
 Year | Asset1 Returns | Asset2 Returns
 
@@ -186,11 +187,13 @@ Year | Asset1 Returns | Asset2 Returns
 ## 🧠 Skills Demonstrated
 
 * Financial Modeling
+* Quantitative Analysis
 * Portfolio Optimization
-* Data Analysis
-* Statistical Computing
-* Multi-Asset Investment Analysis
-* Interactive Dashboard Development
+* Risk Management
+* Statistical Modeling
+* Data Visualization
+* API Integration
+* Dashboard Development
 
 ---
 
@@ -202,4 +205,4 @@ Rupali Goyal
 
 ## 📌 Note
 
-This project is intended for educational purposes and financial data analysis.
+This project is built for educational purposes and financial data analysis.
