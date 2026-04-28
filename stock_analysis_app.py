@@ -1,11 +1,13 @@
 """
 Wealth Portfolio Analysis Dashboard
 Supports:
-  1. Dynamic Multi-Asset (Blend Stocks, MFs, and FDs)
-  2. Case Study (Compare 2 Assets)
-  3. Single Stock Deep Dive
-  4. Single Mutual Fund Deep Dive
-  5. Fixed Deposit (FD) Deep Dive
+  1. Dynamic Multi-Asset (All Combined)
+  2. Multi-Stock Portfolio
+  3. Multi-Mutual Fund Portfolio
+  4. Case Study (Compare 2 Assets)
+  5. Single Stock Deep Dive
+  6. Single Mutual Fund Deep Dive
+  7. Fixed Deposit (FD) Deep Dive
   - Adaptive UI (Light/Dark Mode)
 """
 
@@ -96,11 +98,13 @@ st.markdown('<div class="sub-header">Data-Driven Optimization for Stocks, Mutual
 with st.sidebar:
     st.markdown("### 📂 Analysis Mode")
     mode = st.radio("", [
-        "1. Dynamic Multi-Asset", 
-        "2. Case Study (2 Assets)", 
-        "3. Single Stock Deep Dive",
-        "4. Single Mutual Fund Deep Dive",
-        "5. Fixed Deposit (FD) Deep Dive"
+        "1. Dynamic Multi-Asset (All Combined)", 
+        "2. Multi-Stock Portfolio",
+        "3. Multi-Mutual Fund Portfolio",
+        "4. Case Study (Compare 2 Assets)", 
+        "5. Single Stock Deep Dive",
+        "6. Single Mutual Fund Deep Dive",
+        "7. Fixed Deposit (FD) Deep Dive"
     ])
     st.divider()
     
@@ -110,15 +114,32 @@ with st.sidebar:
     show_raw = st.checkbox("Show Raw Data Tables", value=False)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MODE 1: DYNAMIC MULTI-ASSET PORTFOLIO
+# MODES 1, 2 & 3: MULTI-ASSET PORTFOLIO ENGINES
 # ─────────────────────────────────────────────────────────────────────────────
-if mode == "1. Dynamic Multi-Asset":
+if mode in ["1. Dynamic Multi-Asset (All Combined)", "2. Multi-Stock Portfolio", "3. Multi-Mutual Fund Portfolio"]:
     st.markdown('<div class="section-title">Step 1: Portfolio Setup</div>', unsafe_allow_html=True)
-    c1, c2, c3, c4 = st.columns(4)
-    data_freq = c1.radio("Data Frequency", ["Monthly", "Daily"], horizontal=True)
-    n_stocks = c2.number_input("Stocks?", min_value=0, max_value=5, value=2)
-    n_mfs = c3.number_input("Mutual Funds?", min_value=0, max_value=5, value=1)
-    n_fds = c4.number_input("Fixed Deposits?", min_value=0, max_value=2, value=1)
+    
+    if mode == "1. Dynamic Multi-Asset (All Combined)":
+        c1, c2, c3, c4 = st.columns(4)
+        data_freq = c1.radio("Data Frequency", ["Monthly", "Daily"], horizontal=True)
+        n_stocks = c2.number_input("Stocks?", min_value=0, max_value=5, value=2)
+        n_mfs = c3.number_input("Mutual Funds?", min_value=0, max_value=5, value=1)
+        n_fds = c4.number_input("Fixed Deposits?", min_value=0, max_value=2, value=1)
+    
+    elif mode == "2. Multi-Stock Portfolio":
+        c1, c2 = st.columns(2)
+        data_freq = c1.radio("Data Frequency", ["Monthly", "Daily"], horizontal=True)
+        n_stocks = c2.number_input("How many Stocks?", min_value=2, max_value=10, value=3)
+        n_mfs = 0
+        n_fds = 0
+        
+    elif mode == "3. Multi-Mutual Fund Portfolio":
+        c1, c2 = st.columns(2)
+        data_freq = c1.radio("Data Frequency", ["Monthly", "Daily"], horizontal=True)
+        n_mfs = c2.number_input("How many Mutual Funds?", min_value=2, max_value=10, value=2)
+        n_stocks = 0
+        n_fds = 0
+
     n_total = n_stocks + n_mfs + n_fds
     
     if n_total < 2:
@@ -127,7 +148,6 @@ if mode == "1. Dynamic Multi-Asset":
         
     st.markdown('<div class="section-title">Step 2: Upload Asset Data</div>', unsafe_allow_html=True)
     
-    # We use a grid system to prevent inputs from becoming too small
     upload_cols = st.columns(min(n_total, 4)) 
     
     uploaded_files = {}
@@ -154,7 +174,7 @@ if mode == "1. Dynamic Multi-Asset":
         with upload_cols[col_idx % 4]:
             st.markdown(f'<div class="subsection-title">🛡️ FD {i+1}</div>', unsafe_allow_html=True)
             fd_name = st.text_input(f"Name", f"FD {i+1}", key=f"fd_name_{i}")
-            fd_rate = st.number_input(f"Annual Interest (%)", min_value=1.0, max_value=15.0, value=7.0, step=0.1, key=f"fd_rate_{i}")
+            fd_rate = st.number_input(f"Annual Interest (%)", min_value=1.0, max_value=15.0, value=6.5, step=0.1, key=f"fd_rate_{i}")
             fd_data[fd_name] = fd_rate
         col_idx += 1
 
@@ -167,7 +187,6 @@ if mode == "1. Dynamic Multi-Asset":
     combined_prices = pd.DataFrame()
     
     with st.spinner("Aligning Dates, Prices, NAVs, and FD Rates into a single matrix..."):
-        # Process Stocks and MFs
         if uploaded_files:
             for comp, file in uploaded_files.items():
                 df = pd.read_csv(file)
@@ -184,12 +203,9 @@ if mode == "1. Dynamic Multi-Asset":
         
         ann_factor = 252 if data_freq == "Daily" else 12
         
-        # Process Fixed Deposits (Injecting them into the matrix)
         for fd_name, fd_rate in fd_data.items():
-            # Convert Annual Rate to Periodic Return
-            period_rate = ((1 + fd_rate/100)**(1/ann_factor) - 1) * 100
+            period_rate = fd_rate / ann_factor 
             
-            # If no CSVs were uploaded, create a dummy index
             if combined_returns.empty:
                 dummy_dates = pd.date_range(start='2023-01-01', periods=12, freq='M')
                 combined_returns = pd.DataFrame(index=dummy_dates)
@@ -197,7 +213,7 @@ if mode == "1. Dynamic Multi-Asset":
                 
             combined_returns[fd_name] = period_rate
             growth_factors = 1 + (combined_returns[fd_name] / 100)
-            combined_prices[fd_name] = 100 * growth_factors.cumprod() # Start FD at base 100
+            combined_prices[fd_name] = 100 * growth_factors.cumprod() 
             
             all_metrics[fd_name] = {
                 'cagr': fd_rate, 'ann_risk': 0.0, 
@@ -218,7 +234,6 @@ if mode == "1. Dynamic Multi-Asset":
     with tabs[1]:
         fig2 = go.Figure()
         for i, comp in enumerate(combined_returns.columns):
-            # FDs are constant, so they will show as a single tall bar
             fig2.add_trace(go.Histogram(x=combined_returns[comp], name=comp, opacity=0.8, marker_color=fintech_colors[i % len(fintech_colors)], nbinsx=30))
         fig2.update_layout(height=450, barmode='overlay', xaxis_title=f"{data_freq} Return (%)", yaxis_title="Frequency")
         st.plotly_chart(fig2, use_container_width=True)
@@ -245,8 +260,7 @@ if mode == "1. Dynamic Multi-Asset":
         if abs(sum(weights_input) - 100) > 0.01: st.warning(f"⚠️ Your weights sum to {sum(weights_input):.1f}%. Adjust to 100%.")
 
         st.divider()
-        st.markdown('### 🧮 2. Covariance & Correlation (FDs show 0 risk)')
-        # Fill NaN with 0 because FD standard deviation is 0
+        st.markdown('### 🧮 2. Covariance & Correlation Matrices')
         cov_matrix_df = combined_returns.cov().fillna(0)
         corr_matrix_df = combined_returns.corr().fillna(0) 
         
@@ -271,8 +285,7 @@ if mode == "1. Dynamic Multi-Asset":
         with v3: st.markdown(color_metric("Potential Risk (±1σ)", f"±₹{(investment_amount * (port_risk / 100)):,.0f}", "", "orange"), unsafe_allow_html=True)
 
     with tabs[4]:
-        st.markdown('### Efficient Frontier (Monte Carlo)')
-        st.write("Notice how including an FD lowers the risk boundary perfectly!")
+        st.markdown('### Efficient Frontier (Monte Carlo Simulation)')
         n_sim = st.slider("Number of Simulations", 500, 5000, 2000, 500)
         sim_rets, sim_risks, sim_sharpes, sim_weights = [], [], [], []
         np.random.seed(42)
@@ -286,15 +299,15 @@ if mode == "1. Dynamic Multi-Asset":
         fig_ef.add_trace(go.Scatter(x=[sim_risks[best_idx]], y=[sim_rets[best_idx]], mode='markers+text', text=['⭐ Max Sharpe'], textposition='top left', marker=dict(size=18, color='#FF9F1C', symbol='star'), name='Max Sharpe Portfolio'))
         st.plotly_chart(fig_ef, use_container_width=True)
         
-        st.markdown("**Optimal Weights:**")
+        st.markdown("**Optimal Weights for Maximum Sharpe Ratio:**")
         opt_cols = st.columns(n_total)
         for i, comp in enumerate(all_assets):
             with opt_cols[i]: st.metric(comp, f"{sim_weights[best_idx][i]*100:.1f}%")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MODES 2, 3, 4 remain unchanged ...
+# MODE 4: CASE STUDY
 # ─────────────────────────────────────────────────────────────────────────────
-elif mode == "2. Case Study (2 Assets)":
+elif mode == "4. Case Study (Compare 2 Assets)":
     uploaded_case = st.file_uploader("Upload Case Study CSV", type=["csv"])
     if not uploaded_case: st.stop()
     raw = pd.read_csv(uploaded_case)
@@ -319,7 +332,10 @@ elif mode == "2. Case Study (2 Assets)":
         with pc1: st.markdown(color_metric("Portfolio Return", f"{pr*100:.2f}", "%", "green"), unsafe_allow_html=True)
         with pc2: st.markdown(color_metric("Portfolio Risk", f"{prisk*100:.2f}", "%", "cyan"), unsafe_allow_html=True)
 
-elif mode == "3. Single Stock Deep Dive":
+# ─────────────────────────────────────────────────────────────────────────────
+# MODE 5: SINGLE STOCK
+# ─────────────────────────────────────────────────────────────────────────────
+elif mode == "5. Single Stock Deep Dive":
     st.markdown('<div class="section-title">Single Stock Deep Dive</div>', unsafe_allow_html=True)
     uploaded_custom = st.file_uploader("Upload Stock CSV", type=["csv"])
     if not uploaded_custom: st.stop()
@@ -343,7 +359,10 @@ elif mode == "3. Single Stock Deep Dive":
     with mc2: st.markdown(color_metric("Annualized Risk", f"{m['ann_risk']:.2f}", "%", "cyan"), unsafe_allow_html=True)
     with mc3: st.markdown(color_metric("Coeff. of Variation", f"{m['cv']:.3f}", "", "cobalt"), unsafe_allow_html=True)
 
-elif mode == "4. Single Mutual Fund Deep Dive":
+# ─────────────────────────────────────────────────────────────────────────────
+# MODE 6: SINGLE MUTUAL FUND
+# ─────────────────────────────────────────────────────────────────────────────
+elif mode == "6. Single Mutual Fund Deep Dive":
     st.markdown('<div class="section-title">Mutual Fund Deep Dive</div>', unsafe_allow_html=True)
     uploaded_custom = st.file_uploader("Upload Mutual Fund CSV", type=["csv"])
     if not uploaded_custom: st.stop()
@@ -367,22 +386,21 @@ elif mode == "4. Single Mutual Fund Deep Dive":
     with mc3: st.markdown(color_metric("Coeff. of Variation", f"{m['cv']:.3f}", "", "cobalt"), unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# MODE 5: NEW FIXED DEPOSIT DEEP DIVE
+# MODE 7: FIXED DEPOSIT
 # ─────────────────────────────────────────────────────────────────────────────
-elif mode == "5. Fixed Deposit (FD) Deep Dive":
+elif mode == "7. Fixed Deposit (FD) Deep Dive":
     st.markdown('<div class="section-title">Fixed Deposit (Risk-Free) Deep Dive</div>', unsafe_allow_html=True)
     st.write("Analyze the guaranteed, zero-risk compounding of a Fixed Deposit.")
     
     c1, c2, c3 = st.columns(3)
     principal = c1.number_input("Principal Amount (₹)", min_value=1000, value=investment_amount, step=10000)
-    rate = c2.number_input("Annual Interest Rate (%)", min_value=1.0, max_value=15.0, value=7.1, step=0.1)
-    tenure = c3.slider("Tenure (Years)", min_value=1, max_value=20, value=5)
+    rate = c2.number_input("Annual Interest Rate (%)", min_value=1.0, max_value=15.0, value=6.5, step=0.1)
+    tenure = c3.slider("Tenure (Years)", min_value=1, max_value=20, value=3)
     
     compounding_freq = st.radio("Compounding Frequency", ["Quarterly (Standard in Banks)", "Annually", "Monthly"], horizontal=True)
     
     n = 4 if compounding_freq == "Quarterly (Standard in Banks)" else (1 if compounding_freq == "Annually" else 12)
     
-    # Financial Formula: A = P(1 + r/n)^(nt)
     maturity_amount = principal * (1 + (rate/100)/n)**(n * tenure)
     interest_earned = maturity_amount - principal
     
@@ -392,7 +410,6 @@ elif mode == "5. Fixed Deposit (FD) Deep Dive":
     with m2: st.markdown(color_metric("Total Interest Earned", f"+₹{interest_earned:,.0f}", "", "green"), unsafe_allow_html=True)
     with m3: st.markdown(color_metric("Maturity Amount", f"₹{maturity_amount:,.0f}", "", "cyan"), unsafe_allow_html=True)
     
-    # Generate Growth Chart
     years = np.arange(0, tenure + 1)
     values = principal * (1 + (rate/100)/n)**(n * years)
     
