@@ -1,8 +1,27 @@
-# 📈 Wealth Portfolio Analyzer (Institutional-Grade v2.0)
+# 📈 Wealth Portfolio Analyzer
 
 A comprehensive financial analytics platform built using Streamlit that enables users to analyze and optimize portfolios across **stocks, mutual funds, and fixed deposits (FDs)** using advanced quantitative finance techniques.
 
 This system goes beyond basic portfolio analysis by integrating **risk-adjusted metrics, macroeconomic factors, and credit-risk modeling**, simulating real-world investment decision frameworks.
+
+---
+
+## 🚀 What's New in v2.0
+
+* ✅ Sharpe Ratio corrected using **risk-free rate (India 10Y G-Sec proxy)**
+* ✅ Added **Sortino Ratio (downside risk)**
+* ✅ Added **Maximum Drawdown & Calmar Ratio**
+* ✅ Added **Value at Risk (VaR 95%)**
+* ✅ Integrated **Live Inflation (World Bank API)**
+* ✅ Integrated **Dynamic Risk-Free Rate (India)**
+* ✅ Fixed Deposit upgraded with:
+
+  * Credit risk modeling
+  * Inflation-adjusted real returns
+* ✅ Efficient Frontier improved (FD excluded for accuracy)
+* ✅ Robust **column auto-detection system**
+* ✅ Rolling returns & drawdown visualization
+* ✅ Strict weight validation (execution blocking)
 
 ---
 
@@ -78,7 +97,7 @@ Calculates:
 * Incorporates:
 
   * Credit default probability
-  * Partial recovery assumptions
+  * Partial recovery assumption
   * Inflation adjustment (Fisher Equation)
 * Outputs:
 
@@ -109,7 +128,7 @@ Calculates:
 
 * Live Inflation Data (World Bank API)
 * Risk-Free Rate (India 10Y G-Sec Proxy)
-* User override support
+* Manual override support
 
 ---
 
